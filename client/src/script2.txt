@@ -1,0 +1,2 @@
+info
+execute_script client/src/script1.txt

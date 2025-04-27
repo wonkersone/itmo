@@ -5,7 +5,17 @@ import network.TCPServer;
 
 import java.io.IOException;
 
+/**
+ * Главный класс сервера, отвечающий за инициализацию и запуск серверной части приложения
+ */
 public class ServerMain {
+    /**
+     * Точка входа в серверное приложение
+     * Инициализирует менеджеры коллекции и команд, регистрирует все доступные команды
+     * и запускает TCP сервер
+     *
+     * @param args аргументы командной строки, где args[0] - путь к файлу с коллекцией
+     */
     public static void main(String[] args) {
         String filePath = args[0];
 
@@ -31,13 +41,11 @@ public class ServerMain {
         commandManager.registerCommand(new ExitCommand());
         commandManager.registerCommand(new SaveCommand());
 
-
         try {
             server.start(5555);
         } catch (IOException e) {
             System.err.println("Не получилось запустить сервер: " + e.getMessage());
             System.exit(1);
         }
-
     }
 }

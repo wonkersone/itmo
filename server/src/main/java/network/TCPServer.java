@@ -20,24 +20,47 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-
+/**
+ * Класс, реализующий TCP сервер для обработки клиентских запросов
+ * Обеспечивает многопоточную обработку подключений и выполнение команд
+ */
 public class TCPServer {
+    /** Логгер для записи событий сервера */
     private static final Logger logger = LogManager.getLogger(TCPServer.class);
+    /** Селектор для неблокирующего ввода/вывода */
     private Selector selector;
+    /** Серверный сокет для приема подключений */
     private ServerSocket serverSocket;
+    /** Флаг работы сервера */
     private volatile boolean isRunning = true;
+    /** Менеджер коллекции работников */
     private final CollectionManager collectionManager;
+    /** Менеджер команд */
     private final CommandManager commandManager;
+    /** Сканер для чтения команд администратора */
     private final Scanner scanner = new Scanner(System.in);
+    /** Список активных подключений */
     private final List<Socket> activeSockets = new CopyOnWriteArrayList<>();
+    /** Счетчик подключенных клиентов */
     public int clientCount = 0;
+    /** Множество активных скриптов для предотвращения рекурсии */
     private final Set<String> activeScripts = new HashSet<>();
 
+    /**
+     * Конструктор сервера
+     * @param collectionManager менеджер коллекции
+     * @param commandManager менеджер команд
+     */
     public TCPServer(CollectionManager collectionManager, CommandManager commandManager) {
         this.collectionManager = collectionManager;
         this.commandManager = commandManager;
     }
 
+    /**
+     * Запускает сервер на указанном порту
+     * @param port порт для прослушивания
+     * @throws IOException если возникла ошибка при запуске сервера
+     */
     public void start(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         logger.info("Сервер запущен на порту {}", port);
@@ -59,6 +82,10 @@ public class TCPServer {
         }
     }
 
+    /**
+     * Обрабатывает подключение клиента
+     * @param socket сокет клиента
+     */
     private void handleConnection(Socket socket) {
         try {
 
@@ -113,6 +140,12 @@ public class TCPServer {
         }
     }
 
+    /**
+     * Обрабатывает запрос на выполнение скрипта
+     * @param request запрос клиента
+     * @param out поток для отправки ответа
+     * @throws IOException если возникла ошибка при отправке ответа
+     */
     private void processScriptRequest(Request request, ObjectOutputStream out) throws IOException {
         String scriptPath = request.getArgs()[0];
         String scriptContent = request.getScriptContent();
@@ -140,6 +173,12 @@ public class TCPServer {
         }
     }
 
+    /**
+     * Обрабатывает содержимое скрипта
+     * @param content содержимое скрипта
+     * @param currentScriptPath путь к текущему скрипту
+     * @return результат выполнения скрипта
+     */
     private String processScriptContent(String content, String currentScriptPath) {
         StringBuilder output = new StringBuilder();
         List<String> lines = Arrays.asList(content.split("\n"));
@@ -167,6 +206,13 @@ public class TCPServer {
         return output.toString();
     }
 
+    /**
+     * Обрабатывает вложенный скрипт
+     * @param scriptPath путь к вложенному скрипту
+     * @param parentScript путь к родительскому скрипту
+     * @return результат выполнения вложенного скрипта
+     * @throws Exception если возникла ошибка при выполнении скрипта
+     */
     private String handleNestedScript(String scriptPath, String parentScript) throws Exception {
         if (activeScripts.contains(scriptPath)) {
             throw new ScriptRecursionException("Рекурсивный вызов из " + parentScript + " в " + scriptPath);
@@ -187,12 +233,20 @@ public class TCPServer {
         return output.toString();
     }
 
-
+    /**
+     * Отправляет ответ клиенту
+     * @param response ответ для отправки
+     * @param out поток для отправки
+     * @throws IOException если возникла ошибка при отправке
+     */
     public void sendResponse(Response response, ObjectOutputStream out) throws IOException {
         out.writeObject(response);
         out.flush();
     }
 
+    /**
+     * Запускает режим обработки команд администратора
+     */
     public void adminInput() {
         logger.info("Доступен интерактивный режим админа");
         while (true) {
@@ -214,7 +268,9 @@ public class TCPServer {
         }
     }
 
-
+    /**
+     * Останавливает сервер и освобождает ресурсы
+     */
     public synchronized void disconnect() {
         logger.info("Начало отключения сервера");
         if (!isRunning) return;
@@ -238,6 +294,10 @@ public class TCPServer {
         System.exit(0);
     }
 
+    /**
+     * Закрывает сокет клиента
+     * @param socket сокет для закрытия
+     */
     private void closeSocket(Socket socket) {
         try {
             if (socket != null && !socket.isClosed()) {
@@ -249,4 +309,45 @@ public class TCPServer {
         }
     }
 
+//    /**
+//     * Обрабатывает начальную команду от клиента
+//     * @param request запрос клиента
+//     * @param out поток для отправки ответа
+//     * @param in поток для чтения данных
+//     * @throws IOException если возникла ошибка при обмене данными
+//     * @throws ClassNotFoundException если возникла ошибка при десериализации
+//     */
+//    private void handleInitialCommand(Request request, ObjectOutputStream out, ObjectInputStream in) throws IOException, ClassNotFoundException {
+//        Command command = commandManager.getCommands().get(request.getCommandName());
+//        if (command != null) {
+//            if (command.needArgs && request.getArgs().length == 0) {
+//                Response response = new Response(Response.ResponseType.ERROR, false,
+//                        "У данной команды обязательно должен быть указан ее аргумент.");
+//                logger.info("Сформирован ответ клиенту: {}", response.toString());
+//                sendResponse(response, out);
+//                logger.warn("Команда была введена некорректно!");
+//            } else {
+//                logger.info("Запрос на выполнение команды: {}", command.toString());
+//                if (command.getCommandType() == Command.CommandType.WITHOUT_WORKER_DATA) {
+//                    Response response = commandManager.executeCommand(request.getCommandName(), request.getArgs(), collectionManager);
+//                    logger.info("Сформирован ответ клиенту: {}", response.toString());
+//                    sendResponse(response, out);
+//                } else {
+//                    Response response = new Response(Response.ResponseType.NEED_WORKER, "Требуется ввести данные о работнике");
+//                    logger.info("Сформирован ответ клиенту: {}", response.toString());
+//                    out.writeObject(response);
+//                    Request newRequest = (Request) in.readObject();
+//                    Worker worker = newRequest.getWorker();
+//                    logger.info("Получены данные о работнике: {}", newRequest.getWorker().toString());
+//                    Response newResponse = commandManager.executeCommand(request.getCommandName(), request.getArgs(), collectionManager, worker);
+//                    logger.info("Сформирован ответ клиенту: {}", newResponse.toString());
+//                    sendResponse(newResponse, out);
+//                }
+//            }
+//        } else {
+//            Response response = new Response(Response.ResponseType.ERROR, "Введена некорректная команда!");
+//            logger.warn("Сформирован ответ клиенту: {}", response.toString());
+//            sendResponse(response, out);
+//        }
+//    }
 }

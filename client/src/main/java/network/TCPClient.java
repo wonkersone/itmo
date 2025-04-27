@@ -6,11 +6,25 @@ import shit.Response;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Класс, реализующий TCP клиент для взаимодействия с сервером
+ * Обеспечивает установку соединения, отправку запросов и получение ответов
+ */
 public class TCPClient {
+    /** Сокет для связи с сервером */
     private Socket clientSocket;
+    /** Поток для отправки объектов на сервер */
     private ObjectOutputStream out;
+    /** Поток для получения объектов от сервера */
     private ObjectInputStream in;
 
+    /**
+     * Устанавливает соединение с сервером
+     *
+     * @param ip IP-адрес сервера
+     * @param port порт сервера
+     * @throws IOException если произошла ошибка при установке соединения
+     */
     public void connect(String ip, int port) throws IOException {
         clientSocket = new Socket(ip, port);
         out = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -18,7 +32,14 @@ public class TCPClient {
         System.out.println("Подключено к серверу " + ip + ":" + port);
     }
 
-
+    /**
+     * Отправляет запрос на сервер и получает ответ
+     * Метод синхронизирован для обеспечения потокобезопасности
+     *
+     * @param request запрос для отправки
+     * @return ответ от сервера
+     * @throws IOException если произошла ошибка при обмене данными
+     */
     public Response sendRequest(Request request) throws IOException {
         try {
             synchronized (out) {  // Синхронизация для потокобезопасности
@@ -35,11 +56,22 @@ public class TCPClient {
         }
     }
 
+    /**
+     * Переподключается к серверу в случае разрыва соединения
+     *
+     * @throws IOException если не удалось переподключиться
+     */
     private void reconnect() throws IOException {
         disconnect();
         connect("localhost", 8000); // Или параметры из конфига
     }
 
+    /**
+     * Закрывает соединение с сервером
+     * Освобождает все использованные ресурсы
+     *
+     * @throws IOException если произошла ошибка при закрытии соединения
+     */
     public void disconnect() throws IOException {
         try {
             out.close();

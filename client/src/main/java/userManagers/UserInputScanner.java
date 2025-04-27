@@ -18,19 +18,37 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * Класс для обработки пользовательского ввода и взаимодействия с сервером
+ * Поддерживает интерактивный режим работы и выполнение скриптов
+ */
 public class UserInputScanner {
+    /** Клиент для взаимодействия с сервером */
     private final TCPClient client;
+    /** Сканер для чтения пользовательского ввода */
     private final Scanner scanner;
+    /** Помощник для ввода данных работника */
     private final WorkerInputHelper helper;
+    /** Форматтер для дат */
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    /** Множество выполненных скриптов для предотвращения рекурсии */
     private final Set<String> executedScripts = new HashSet<>();
 
+    /**
+     * Создает новый экземпляр UserInputScanner
+     * @param client TCP клиент для взаимодействия с сервером
+     */
     public UserInputScanner(TCPClient client) {
         this.client = client;
         this.scanner = new Scanner(System.in);
         this.helper = new WorkerInputHelper();
     }
 
+    /**
+     * Запускает интерактивный режим работы с пользователем
+     * Обрабатывает команды пользователя, отправляет запросы на сервер
+     * и выводит результаты выполнения команд
+     */
     public void startInteractiveMode() {
         System.out.println("Клиент запущен в интерактивном режиме!");
         Scanner scanner = new Scanner(System.in).useDelimiter("\n"); // Исправляем работу с переводом строк
@@ -93,32 +111,13 @@ public class UserInputScanner {
         scanner.close();
     }
 
-//    private Request createRequest(String input) throws IOException, ScriptRecursionException {
-//        String[] parts = input.split(" ", 2);
-//        String commandName = parts[0];
-//        String[] args = parts.length > 1 ? parts[1].split(" ") : new String[0];
-//
-//        if (commandName.equalsIgnoreCase("execute_script")) {
-//            if (args.length == 0) throw new IllegalArgumentException("Не указан путь к скрипту");
-//
-//            String scriptPath = args[0];
-//            if (executedScripts.contains(scriptPath)) {
-//                throw new ScriptRecursionException("Рекурсия! Скрипт " + scriptPath + " уже выполняется");
-//            }
-//            executedScripts.add(scriptPath);
-//
-//            String scriptContent = new String(Files.readAllBytes(Paths.get(scriptPath)));
-//            return new Request(
-//                    commandName,
-//                    args,
-//                    scriptContent,
-//                    Request.RequestType.SCRIPT_TRANSFER
-//            );
-//        } else {
-//            return new Request(commandName, args, null, Request.RequestType.INITIAL_COMMAND);
-//        }
-//    }
-
+    /**
+     * Создает запрос на основе пользовательского ввода
+     * @param input строка с командой и аргументами
+     * @return объект запроса
+     * @throws IOException если произошла ошибка при чтении файла скрипта
+     * @throws ScriptRecursionException если обнаружена рекурсия в скриптах
+     */
     private Request createRequest(String input) throws IOException, ScriptRecursionException {
         String[] parts = input.split(" ", 2);
         String commandName = parts[0];
@@ -138,6 +137,11 @@ public class UserInputScanner {
         return new Request(commandName, args);
     }
 
+    /**
+     * Проверяет наличие рекурсии в скриптах
+     * @param scriptPath путь к скрипту
+     * @throws ScriptRecursionException если скрипт уже выполняется
+     */
     private void checkRecursion(String scriptPath) throws ScriptRecursionException {
         if (executedScripts.contains(scriptPath)) {
             throw new ScriptRecursionException("Рекурсия! Скрипт " + scriptPath + " уже выполняется");
@@ -145,10 +149,20 @@ public class UserInputScanner {
         executedScripts.add(scriptPath);
     }
 
+    /**
+     * Читает содержимое скрипта из файла
+     * @param scriptPath путь к файлу скрипта
+     * @return содержимое скрипта
+     * @throws IOException если произошла ошибка при чтении файла
+     */
     private String readScriptContent(String scriptPath) throws IOException {
         return new String(Files.readAllBytes(Paths.get(scriptPath)));
     }
 
+    /**
+     * Обрабатывает вложенный скрипт, полученный от сервера
+     * @param response ответ сервера с информацией о вложенном скрипте
+     */
     private void handleNestedScript(Response response) {
         String scriptPath = response.getMessage().split(": ")[1];
         try {
@@ -159,6 +173,4 @@ public class UserInputScanner {
             System.out.println("Ошибка выполнения вложенного скрипта: " + e.getMessage());
         }
     }
-
-
 }

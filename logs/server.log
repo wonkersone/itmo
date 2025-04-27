@@ -215,3 +215,55 @@ add - добав...)
 2025-04-22 22:33:07.686 [Thread-0] INFO  network.TCPServer - Начало отключения сервера
 2025-04-22 22:33:07.690 [Thread-0] INFO  network.TCPServer - Сервер успешно остановлен
 2025-04-22 22:33:07.690 [main] INFO  network.TCPServer - Сервер остановлен!
+2025-04-23 12:10:17.019 [main] INFO  network.TCPServer - Сервер запущен на порту 5555
+2025-04-23 12:10:17.022 [Thread-0] INFO  network.TCPServer - Доступен интерактивный режим админа
+2025-04-23 12:10:19.523 [main] INFO  network.TCPServer - Подключение от клиента №1
+2025-04-23 12:10:24.565 [Thread-1] INFO  network.TCPServer - Получен запрос: (type = INITIAL_COMMAND, commandName = help, arguments = [], worker = null)
+2025-04-23 12:10:24.565 [Thread-1] INFO  network.TCPServer - Запрос на выполнение команды: help - вывести справку по доступным командам;
+2025-04-23 12:10:24.566 [Thread-1] INFO  network.TCPServer - Сформирован ответ клиенту: (type = INFO, success = true, message = Доступные команды:
+add - добав...)
+2025-04-23 12:11:06.885 [Thread-0] INFO  network.TCPServer - Выполнение команды администратора: help
+2025-04-23 12:11:13.982 [Thread-0] INFO  network.TCPServer - Выполнение команды администратора: save
+2025-04-23 12:18:09.106 [main] INFO  network.TCPServer - Сервер запущен на порту 5555
+2025-04-23 12:18:09.108 [Thread-0] INFO  network.TCPServer - Доступен интерактивный режим админа
+2025-04-23 15:23:05.813 [main] INFO  network.TCPServer - Сервер запущен на порту 5555
+2025-04-23 15:23:05.816 [Thread-0] INFO  network.TCPServer - Доступен интерактивный режим админа
+2025-04-23 16:35:49.394 [main] INFO  network.TCPServer - Сервер запущен на порту 5555
+2025-04-23 16:35:49.397 [Thread-0] INFO  network.TCPServer - Доступен интерактивный режим админа
+2025-04-23 16:35:52.868 [main] INFO  network.TCPServer - Подключение от клиента №1
+2025-04-23 16:36:11.111 [Thread-1] INFO  network.TCPServer - Получен запрос: (type = INITIAL_COMMAND, commandName = help, arguments = [], worker = null)
+2025-04-23 16:36:11.111 [Thread-1] INFO  network.TCPServer - Запрос на выполнение команды: help - вывести справку по доступным командам;
+2025-04-23 16:36:11.115 [Thread-1] INFO  network.TCPServer - Сформирован ответ клиенту: (type = INFO, success = true, message = Доступные команды:
+add - добав...)
+2025-04-23 16:36:17.825 [Thread-1] INFO  network.TCPServer - Получен запрос: (type = INITIAL_COMMAND, commandName = sum_of_salary, arguments = [], worker = null)
+2025-04-23 16:36:17.825 [Thread-1] INFO  network.TCPServer - Запрос на выполнение команды: sum_of_salary - вывести сумму значений поля salary для всех элементов коллекции;
+2025-04-23 16:36:17.829 [Thread-1] INFO  network.TCPServer - Сформирован ответ клиенту: (type = INFO, success = true, message = Сумма зарплат: 1259021)
+2025-04-23 16:37:16.536 [Thread-1] INFO  network.TCPServer - Получен запрос: (type = INITIAL_COMMAND, commandName = add, arguments = [], worker = null)
+2025-04-23 16:37:16.536 [Thread-1] INFO  network.TCPServer - Запрос на выполнение команды: add - добавить новый элемент в коллекцию;
+2025-04-23 16:37:16.537 [Thread-1] INFO  network.TCPServer - Сформирован ответ клиенту: (type = NEED_WORKER, success = false, message = Требуется ввести данные о рабо...)
+2025-04-23 16:37:49.335 [Thread-1] INFO  network.TCPServer - Получены данные о работнике: Работник:
+  ID: не установлен
+  Имя: afa
+  Координаты: (x, y) : (11.0, 11)
+  Дата создания: не указана
+  Зарплата: 11
+  Дата начала работы: 11-11-1111 00:00
+  Дата окончания работы: 11-11-1111 00:00 MSK
+  Должность: Пекарь
+  Информация о человеке:
+    	Рост: 11.0
+	Вес: 11.0
+
+2025-04-23 16:37:49.337 [Thread-1] INFO  network.TCPServer - Сформирован ответ клиенту: (type = null, success = true, message = Работник добавлен в коллекцию)
+2025-04-23 16:37:53.537 [Thread-1] INFO  network.TCPServer - Получен запрос: (type = INITIAL_COMMAND, commandName = show, arguments = [], worker = null)
+2025-04-23 16:37:53.537 [Thread-1] INFO  network.TCPServer - Запрос на выполнение команды: show - вывести все элементы коллекции;
+2025-04-23 16:37:53.542 [Thread-1] INFO  network.TCPServer - Сформирован ответ клиенту: (type = INFO, success = true, message = Работник:
+  ID: 9
+  Имя: afa
+ ...)
+2025-04-23 16:38:28.103 [Thread-1] ERROR network.TCPServer - Ошибка при обработке соединения: [java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:328), java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:355), java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:808), java.base/java.net.Socket$SocketInputStream.read(Socket.java:966), java.base/java.net.Socket$SocketInputStream.read(Socket.java:961), java.base/java.io.ObjectInputStream$PeekInputStream.peek(ObjectInputStream.java:2886), java.base/java.io.ObjectInputStream$BlockDataInputStream.peek(ObjectInputStream.java:3213), java.base/java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:3223), java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1695), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:514), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:472), network.TCPServer.handleConnection(TCPServer.java:69), network.TCPServer.lambda$start$0(TCPServer.java:52), java.base/java.lang.Thread.run(Thread.java:842)]
+2025-04-23 16:38:28.104 [Thread-1] INFO  network.TCPServer - Соединение с клиентом закрыто!
+2025-04-23 16:39:28.503 [main] INFO  network.TCPServer - Подключение от клиента №2
+2025-04-23 16:39:34.570 [Thread-2] INFO  network.TCPServer - Получен запрос: (type = SCRIPT_TRANSFER, commandName = execute_script, arguments = [client/src/script1.txt], worker = null)
+2025-04-23 16:39:34.570 [Thread-2] INFO  network.TCPServer - Начало выполнения скрипта: client/src/script1.txt
+2025-04-23 16:39:34.572 [Thread-2] INFO  network.TCPServer - Сформирован ответ клиенту: (type = INFO, success = false, message = === Начало выполнения скрипта ...)

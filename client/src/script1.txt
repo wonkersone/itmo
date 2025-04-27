@@ -2,4 +2,4 @@ info
 help
 remove_by_id 8
 show
-execute_script client/src/script2.txt
+execute_script client/src/script1.txt

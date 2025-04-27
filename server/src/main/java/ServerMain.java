@@ -12,7 +12,6 @@ public class ServerMain {
         CollectionManager collectionManager = new CollectionManager();
         CommandManager commandManager = new CommandManager();
         TCPServer server = new TCPServer(collectionManager, commandManager);
-        NewTCPServer newServer = new NewTCPServer(collectionManager, commandManager);
         collectionManager.loadCollectionFromFile(filePath);
 
         commandManager.registerCommand(new HelpCommand(commandManager));
@@ -38,7 +37,6 @@ public class ServerMain {
         } catch (IOException e) {
             System.err.println("Не получилось запустить сервер: " + e.getMessage());
             System.exit(1);
-            newServer.disconnect();
         }
 
     }

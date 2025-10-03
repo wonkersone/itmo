@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Лабораторная работа #1 | Веб-программирование</title>
+    <script defer src="js/index.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<table class="header-table">
+    <tr>
+        <td colspan="2">
+            <header class="main-header">
+                <h1>Лабораторная работа №1 | Веб-программирование</h1>
+                <div class="student-info">
+                    <span>ФИО: Лейковский Никита Вячеславович</span>
+                    <span>Группа: P3213</span>
+                    <span>Вариант: 466497</span>
+                </div>
+            </header>
+        </td>
+    </tr>
+</table>
+
+<table class="main-layout">
+    <tr>
+        <td class="left-column">
+            <table class="form-section">
+                <tr>
+                    <td colspan="2">
+                        <h2>Координаты мишени</h2>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label-cell">
+                        <label for="x-radio-group">Координата X:</label>
+                    </td>
+                    <td class="input-cell">
+                        <div class="radio-group" id="x-radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="x" value="-5">
+                                <span class="radio-custom"></span> -5
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="x" value="-4">
+                                <span class="radio-custom"></span> -4
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="x" value="-3">
+                                <span class="radio-custom"></span> -3
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="x" value="-2">
+                                <span class="radio-custom"></span> -2
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="x" value="-1">
+                                <span class="radio-custom"></span> -1
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="x" value="0">
+                                <span class="radio-custom"></span> 0
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="x" value="1">
+                                <span class="radio-custom"></span> 1
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="x" value="2">
+                                <span class="radio-custom"></span> 2
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="x" value="3">
+                                <span class="radio-custom"></span> 3
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label-cell">
+                        <label for="y-coord">Координата Y:</label>
+                    </td>
+                    <td class="input-cell">
+                        <input type="text" id="y-coord" name="y"
+                               placeholder="От -3 до 5"
+                               class="text-input">
+                        <span class="validation-hint" id="y-hint"></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label-cell">
+                        <label for="r-value">Радиус R:</label>
+                    </td>
+                    <td class="input-cell">
+                        <input type="text" id="r-value" name="r"
+                               placeholder="От 1 до 4"
+                               class="text-input">
+                        <span class="validation-hint" id="r-hint"></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" class="button-cell">
+                        <button type="button" id="submit-btn" class="submit-button">
+                            Огонь по "нехорошему" хутору
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="graph-section">
+                <tr>
+                    <td>
+                        <h2>Карта хутора</h2>
+                        <div class="graph-container">
+                            <canvas id="area-graph" width="300" height="300"></canvas>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+
+        <td class="right-column">
+            <table class="results-section">
+                <tr>
+                    <td>
+                        <div class="results-header">
+                            <h2>Результаты выстрелов</h2>
+                            <button type="button" id="clear-results-btn" class="clear-button">
+                                Очистить таблицу
+                            </button>
+                        </div>
+                        <div class="results-container">
+                            <table class="results-table">
+                                <thead>
+                                <tr>
+                                    <th>X</th>
+                                    <th>Y</th>
+                                    <th>R</th>
+                                    <th>Результат</th>
+                                    <th>Время</th>
+                                    <th>Время работы</th>
+                                </tr>
+                                </thead>
+                                <tbody id="results-body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

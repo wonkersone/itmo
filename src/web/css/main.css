@@ -1,0 +1,364 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #e0e0e0;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.header-table {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 2px solid #00b4d8;
+    margin-bottom: 30px;
+}
+
+.main-layout {
+    width: 100%;
+    border-spacing: 20px;
+    height: calc(100vh - 150px);
+}
+
+.left-column {
+    width: 60%;
+    vertical-align: top;
+}
+
+.right-column {
+    width: 40%;
+    height: 100%;
+    vertical-align: top;
+}
+
+.main-header {
+    padding: 20px;
+    text-align: center;
+}
+
+.main-header h1 {
+    font-size: 2.2em;
+    color: #00b4d8;
+    margin-bottom: 15px;
+}
+
+.student-info {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #90e0ef !important;
+    font-size: 1.3em !important;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.form-section, .graph-section, .results-section {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.form-section h2, .graph-section h2, .results-section h2 {
+    color: #00b4d8;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.label-cell {
+    padding: 12px 35px;
+    text-align: left;
+    font-weight: bold;
+    color: #caf0f8;
+}
+
+.input-cell {
+    padding: 12px 35px;
+}
+
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: left;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.radio-label:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.radio-label input[type="radio"] {
+    display: none;
+}
+
+.radio-custom {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    margin-right: 10px;
+    position: relative;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom {
+    background-color: #00b4d8;
+    border-color: #00b4d8;
+}
+
+.text-input {
+    width: 200px;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    margin-bottom: 5px;
+}
+
+.text-input:focus {
+    outline: none;
+    border-color: #00b4d8;
+    box-shadow: 0 0 10px rgba(0, 180, 216, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.text-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.validation-hint {
+    display: block;
+    font-size: 0.8em;
+    color: #ff6b6b;
+    margin-top: 5px;
+    min-height: 15px;
+}
+
+.button-cell {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.submit-button {
+    background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.1em;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 180, 216, 0.4);
+    background: linear-gradient(135deg, #00cdf9 0%, #0088cc 100%);
+}
+
+.submit-button:active {
+    transform: translateY(0);
+}
+
+.submit-button:disabled {
+    background: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.clear-button {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.9em;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.clear-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+    background: linear-gradient(135deg, #ff8e8e 0%, #ff6b6b 100%);
+}
+
+.graph-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+#area-graph {
+    border: 2px solid #00b4d8;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.results-container {
+    max-height: calc(100vh - 300px);
+    overflow-y: auto;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.results-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.results-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.results-container::-webkit-scrollbar-thumb {
+    background: #00b4d8;
+    border-radius: 4px;
+}
+
+.results-container::-webkit-scrollbar-thumb:hover {
+    background: #0096c7;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.results-table th {
+    background: #00b4d8;
+    color: #1a1a2e;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+}
+
+.results-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.results-table tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.hit {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.miss {
+    color: #FF6B6B;
+    font-weight: bold;
+}
+
+.form-section::before {
+    content: "🎯";
+    font-size: 1.5em;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: #1a1a2e;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.graph-section::before {
+    content: "📈";
+    font-size: 1.5em;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: #1a1a2e;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.results-section::before {
+    content: "📊";
+    font-size: 1.5em;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: #1a1a2e;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.form-section table {
+    color: inherit;
+}
+
+.form-section table tr > td {
+    border: none;
+}
+
+@media (max-width: 768px) {
+    .main-layout {
+        display: block;
+        height: auto;
+    }
+
+    .left-column, .right-column {
+        width: 100%;
+        display: block;
+    }
+
+    .student-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .radio-group {
+        justify-content: flex-start;
+    }
+
+    .results-container {
+        max-height: 400px;
+    }
+
+    .results-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}

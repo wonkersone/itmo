@@ -56,7 +56,6 @@
                                 </label>
                                 <% } %>
                             </div>
-                            <!-- Скрытое поле для дробных значений X с графика -->
                             <input type="hidden" id="x-graph" name="x_graph" value="">
                             <span class="validation-hint" id="x-error"></span>
                         </td>
@@ -129,7 +128,6 @@
 </table>
 
 <script>
-    // Передача истории точек из сессии в JavaScript
     window.pointsHistory = [
         <c:forEach var="point" items="${sessionScope.results}" varStatus="loop">
         {
@@ -141,17 +139,11 @@
         </c:forEach>
     ];
 
-    // Функция для ограничения ввода до 3 знаков после запятой
     function validateYPrecision(input) {
         let value = input.value;
-
-        // Заменяем запятую на точку
         value = value.replace(',', '.');
-
-        // Проверяем, есть ли точка в числе
         if (value.includes('.')) {
             let parts = value.split('.');
-            // Если после точки больше 3 символов, обрезаем
             if (parts[1] && parts[1].length > 3) {
                 parts[1] = parts[1].substring(0, 3);
                 input.value = parts[0] + '.' + parts[1];

@@ -36,7 +36,6 @@
                             <h2>Результаты проверки</h2>
                         </div>
 
-                        <!-- Информация о последней проверке -->
                         <div class="current-result">
                             <h3>Последняя проверка:</h3>
                             <table class="results-table">
@@ -80,7 +79,6 @@
                             </table>
                         </div>
 
-                        <!-- История всех проверок -->
                         <div class="results-container">
                             <h3>История проверок:</h3>
                             <div class="table-wrapper">
@@ -124,7 +122,6 @@
                             </div>
                         </div>
 
-                        <!-- Кнопки -->
                         <div class="button-cell">
                             <a href="index.jsp" class="submit-button" style="text-decoration: none; display: inline-block;">
                                 Вернуться на главную

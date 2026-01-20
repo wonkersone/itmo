@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Лабораторная работа #3</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+
+</h:head>
+
+<h:body>
+
+    <style>
+        .custom-slider .ui-slider-horizontal {
+            width: 250px;
+            background: #e0e0e0;
+            height: 6px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+        .custom-slider .ui-slider-handle {
+            background: #2196f3 !important;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            top: -6px;
+            border: 2px solid white;
+            outline: none;
+        }
+    </style>
+
+    <h:form>
+        <h:commandButton action="index?faces-redirect=true" value="На главную" styleClass="nav-button"/>
+    </h:form>
+
+    <table class="main-layout">
+        <tr>
+            <td colspan="2" class="header-cell">
+                <h1>График попадания</h1>
+                <div class="student-info">
+                    <span>Студент: Лейковский Никита</span>
+                    <span>Группа: P3213</span>
+                    <span>Вариант: 1740</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="left-column">
+                <h:form id="form">
+
+                    <h:inputHidden id="hiddenR" value="#{pointBean.r}" />
+
+
+                    <p:remoteCommand name="sendGraphRequest"
+                                     action="#{pointBean.checkPoint}"
+                                     process="@this"
+                                     update="@form"
+                                     oncomplete="redrawCanvas()">
+
+                        <f:setPropertyActionListener value="#{param['x']}" target="#{pointBean.x}" />
+                        <f:setPropertyActionListener value="#{param['y']}" target="#{pointBean.y}" />
+                    </p:remoteCommand>
+
+                    <div class="form-container">
+
+                        <div class="input-group">
+                            <label>X:</label>
+                            <div class="slider-wrapper">
+
+                                <h:inputText id="sliderInput" value="#{pointBean.x}" style="display:none" />
+
+                                <p:slider for="sliderInput" minValue="-3" maxValue="3" step="0.5" styleClass="custom-slider">
+                                    <p:ajax event="slideEnd" process="sliderInput" update="xVal" oncomplete="redrawCanvas()"/>
+                                </p:slider>
+                                <br/>
+                                <span class="current-value">
+                    Текущее: <h:outputText id="xVal" value="#{pointBean.x}"/>
+                </span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Y:</label>
+
+                            <h:inputText id="yInput" value="#{pointBean.y}" styleClass="text-input"
+                                         required="true" requiredMessage="Введите Y">
+                                <f:validateDoubleRange minimum="-3" maximum="5"/>
+                            </h:inputText>
+                            <h:message for="yInput" styleClass="error-message"/>
+                        </div>
+
+                        <div class="input-group">
+                            <label>R:</label>
+                            <div class="radius-buttons">
+                                <ui:repeat value="#{['1', '2', '3', '4', '5']}" var="rVal">
+                                    <p:commandLink value="#{rVal}"
+                                                   action="#{pointBean.setR(rVal)}"
+                                                   styleClass="#{pointBean.r == rVal ? 'r-btn active' : 'r-btn'}"
+                                                   process="@this"
+                                                   update="@form"
+                                                   oncomplete="redrawCanvas()">
+                                    </p:commandLink>
+                                </ui:repeat>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 10px;">
+                            <p:commandButton value="Проверить" action="#{pointBean.checkPoint}"
+                                             styleClass="submit-button"
+                                             process="@form"
+                                             update="@form"
+                                             oncomplete="redrawCanvas()"/>
+
+                            <p:commandButton value="Очистить" action="#{pointBean.clearResults}"
+                                             styleClass="submit-button"
+                                             style="background-color: #ff5252; border: none;"
+                                             process="@this"
+                                             update="@form"
+                                             oncomplete="redrawCanvas()"/>
+                        </div>
+                    </div>
+
+                    <div class="results-container">
+                        <h3>История</h3>
+                        <div class="table-scroll">
+                            <h:dataTable id="results-table" value="#{pointBean.results}" var="res" styleClass="results-table">
+                                <h:column><f:facet name="header">X</f:facet>#{res.x}</h:column>
+                                <h:column><f:facet name="header">Y</f:facet>#{res.y}</h:column>
+                                <h:column><f:facet name="header">R</f:facet>#{res.r}</h:column>
+                                <h:column>
+                                    <f:facet name="header">Результат</f:facet>
+                                    <span class="#{res.hit ? 'hit' : 'miss'}">#{res.hit ? 'Попадание' : 'Промах'}</span>
+                                </h:column>
+                                <h:column><f:facet name="header">Время</f:facet>#{res.checkDate}</h:column>
+                            </h:dataTable>
+                        </div>
+                    </div>
+                </h:form>
+            </td>
+
+            <td class="right-column">
+                <div class="canvas-container">
+                    <canvas id="graphCanvas" width="400" height="400"></canvas>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+    <h:outputScript library="js" name="graph.js"/>
+
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                redrawCanvas();
+            }, 300);
+        });
+    </script>
+</h:body>
+</html>

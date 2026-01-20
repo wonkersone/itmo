@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+    <title>Старт</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body styleClass="start-body">
+    <div class="start-wrapper">
+        <header class="main-header">
+            <h1>Лабораторная работа №3</h1>
+            <div class="student-info">Лейковский Никита | P3213 | Вариант: 1740</div>
+        </header>
+
+        <div id="clock" class="clock">Загрузка...</div>
+
+        <h:form>
+            <h:commandButton action="main?faces-redirect=true" value="Перейти к заданию" styleClass="submit-button" style="width: auto; padding: 15px 40px;"/>
+        </h:form>
+    </div>
+
+    <script type="text/javascript">
+        function updateClock() {
+            const now = new Date();
+            const options = {
+                day: 'numeric', month: 'long', year: 'numeric',
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            };
+            document.getElementById('clock').innerText = now.toLocaleString('ru-RU', options);
+        }
+        updateClock();
+        setInterval(updateClock, 8000);
+    </script>
+</h:body>
+</html>

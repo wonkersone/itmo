@@ -1,0 +1,91 @@
+<div class="main-wrapper">
+  <header class="header-cell">
+    <h1>Лабораторная работа №4</h1>
+    <div class="student-info">
+      <span>Студент: Лейковский Никита</span>
+      <span>Группа: P3213</span>
+      <span>Вариант: 1740</span>
+    </div>
+  </header>
+
+  <div class="main-container">
+    <div class="left-column">
+      <div class="form-container">
+        <div class="input-group">
+          <label>X:</label>
+          <select [(ngModel)]="newPoint.x" class="text-input">
+            <option *ngFor="let v of ['-5','-4','-3','-2','-1','0','1','2','3']" [value]="v">{{v}}</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Y (-3...5):</label>
+          <input type="text"
+                 [(ngModel)]="newPoint.y"
+                 (input)="validateY()"
+                 class="text-input"
+                 placeholder="Введите от -3 до 5">
+          <span class="error-message" *ngIf="yError">{{yError}}</span>
+        </div>
+
+        <div class="input-group">
+          <label>R:</label>
+          <select [(ngModel)]="newPoint.r" (change)="onRChange()" class="text-input">
+            <option *ngFor="let v of ['-5','-4','-3','-2','-1','0','1','2','3']" [value]="v">{{v}}</option>
+          </select>
+          <span class="error-message" *ngIf="rError">{{rError}}</span>
+        </div>
+
+        <div class="button-group">
+          <button type="button"
+                  (click)="addPoint()"
+                  [disabled]="yError || rError"
+                  class="submit-button">Проверить</button>
+          <button type="button"
+                  (click)="clearPoints()"
+                  class="submit-button clear-button">Очистить</button>
+        </div>
+      </div>
+
+      <div class="results-container">
+        <h3>История попаданий</h3>
+        <div class="table-scroll">
+          <table class="results-table">
+            <thead>
+            <tr>
+              <th>X</th>
+              <th>Y</th>
+              <th>R</th>
+              <th>Результат</th>
+              <th>Время</th> </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let res of points">
+              <td>{{res.x}}</td>
+              <td>{{res.y}}</td>
+              <td>{{res.r}}</td>
+              <td>
+                  <span [ngClass]="res.hit ? 'hit' : 'miss'">
+                    {{res.hit ? 'Попадание' : 'Промах'}}
+                  </span>
+              </td>
+              <td>{{res.checkTime | date:'HH:mm:ss'}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-column">
+      <div class="canvas-container">
+        <canvas id="graphCanvas"
+                width="400"
+                height="400"
+                (click)="onCanvasClick($event)">
+        </canvas>
+      </div>
+      <button (click)="logout()" class="logout-button">Выйти из системы</button>
+    </div>
+  </div>
+</div>

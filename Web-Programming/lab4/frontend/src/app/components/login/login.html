@@ -1,0 +1,29 @@
+<div class="login-wrapper">
+  <header class="header-cell">
+    <h1>Лабораторная работа №4</h1>
+    <div class="student-info">
+      <p>Студент: Лейковский Никита</p>
+      <p>Группа: P3213 | Вариант: 1761</p>
+    </div>
+  </header>
+
+  <div class="auth-container">
+    <h2>{{ isLoginMode ? 'Авторизация' : 'Регистрация' }}</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <label for="login">Логин</label>
+        <input type="text" id="login" [(ngModel)]="user.login" name="login" required placeholder="Введите логин">
+      </div>
+      <div class="input-group">
+        <label for="password">Пароль</label>
+        <input type="password" id="password" [(ngModel)]="user.password" name="password" required placeholder="Введите пароль">
+      </div>
+      <button type="submit" class="submit-button">
+        {{ isLoginMode ? 'Войти' : 'Зарегистрироваться' }}
+      </button>
+      <p (click)="isLoginMode = !isLoginMode" class="toggle-link">
+        {{ isLoginMode ? 'У меня ещё нет аккаунта' : 'У меня уже есть аккаунт' }}
+      </p>
+    </form>
+  </div>
+</div>
